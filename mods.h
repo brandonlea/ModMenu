@@ -3537,15 +3537,18 @@ void TPMe(int SlotID)//
 {
 	vector3 mounttp;
 	int mountobjlol = GET_MOUNT(GET_SLOT_ACTOR(SlotID));
-	int mountobjveh = GET_VEHICLE(GET_SLOT_ACTOR(SlotID));
+//	int mountobjveh = GET_VEHICLE(GET_SLOT_ACTOR(SlotID));
+    int mountobjveh = GET_WEAPON_IN_HAND(slotID);
 	if (!freecam || !specit){GET_POSITION(self, &mounttp);}
 	if (freecam){GET_CAMERA_POSITION(camera, &mounttp);}
 	if (specit){GET_CAMERA_POSITION(GET_GAME_CAMERA(), &mounttp);}
+
+    print2("<green>Teleporting</green>", 4000);
 	if (IS_ACTOR_VALID(mountobjlol))
 	{
 		if (IS_ACTOR_MOUNTED(mountobjlol))
 		{
-            print2("<red>Mounted</red>", 400);
+            print2("<red>Mounted</red>", 4000);
 			mount_obj = UNK_0x4A2063EC(mountobjlol);//request object from actor
 			NET_REQUEST_OBJECT(mount_obj);
 			SET_OBJECT_POSITION(mount_obj, mounttp);
@@ -3553,12 +3556,16 @@ void TPMe(int SlotID)//
 	}
 	if (IS_ACTOR_VALID(mountobjveh))
 	{
-		if (IS_ACTOR_INSIDE_VEHICLE(GET_SLOT_ACTOR(SlotID)))
-		{
-			mount_objveh = UNK_0x4A2063EC(mountobjveh);//request object from actor
-			NET_REQUEST_OBJECT(mount_objveh);
-			SET_OBJECT_POSITION(mount_objveh, mounttp);
-		}
+//		if (IS_ACTOR_INSIDE_VEHICLE(GET_SLOT_ACTOR(SlotID)))
+//		{
+//			mount_objveh = UNK_0x4A2063EC(mountobjveh);//request object from actor
+//			NET_REQUEST_OBJECT(mount_objveh);
+//			SET_OBJECT_POSITION(mount_objveh, mounttp);
+//		}
+
+        mount_objveh = UNK_0x4A2063EC(mountobjveh);//request object from actor
+        NET_REQUEST_OBJECT(mount_objveh);
+        SET_OBJECT_POSITION(mount_objveh, mounttp);
 	}
 }
 void SET_BIT(int* n, int k)
